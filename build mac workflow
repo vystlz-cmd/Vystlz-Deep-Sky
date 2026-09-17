@@ -1,0 +1,22 @@
+name: Build Mac App
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          pip install pygame pyinstaller
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller --onedir --windowed your_game.py
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mac-game
+          path: dist/
